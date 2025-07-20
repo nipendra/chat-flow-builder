@@ -9,14 +9,6 @@ interface SettingsPanelProps {
   onClose: () => void;
 }
 
-/**
- * Settings Panel Component
- * Features:
- * - Replaces the Nodes Panel when a node is selected
- * - Allows editing of node properties (currently text content)
- * - Extensible design for different node types
- * - Real-time updates to the flow
- */
 const SettingsPanel: React.FC<SettingsPanelProps> = ({
   selectedNode,
   onNodeUpdate,

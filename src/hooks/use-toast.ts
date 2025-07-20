@@ -34,7 +34,6 @@ const addToast = (toast: Omit<Toast, "id">) => {
   
   notify()
   
-  // Auto remove after 3 seconds
   setTimeout(() => {
     dismiss(newToast.id)
   }, 3000)

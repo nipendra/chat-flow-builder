@@ -1,4 +1,4 @@
-# Flow Builder
+# Chat Flow Builder
 
 A modern, interactive flow builder application for creating and managing workflow diagrams. Built with React and TypeScript, this application provides an intuitive drag-and-drop interface for designing complex workflows.
 

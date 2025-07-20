@@ -5,16 +5,7 @@ interface NodesPanelProps {
   onDragStart: (event: React.DragEvent, nodeType: string) => void;
 }
 
-/**
- * Nodes Panel Component
- * Features:
- * - Shows available node types that can be dragged to the flow
- * - Currently supports Text Message nodes
- * - Extensible design for adding more node types in the future
- * - Drag and drop functionality
- */
 const NodesPanel: React.FC<NodesPanelProps> = ({ onDragStart }) => {
-  // Extensible node types configuration
   const nodeTypes = [
     {
       type: 'textMessage',
@@ -24,8 +15,6 @@ const NodesPanel: React.FC<NodesPanelProps> = ({ onDragStart }) => {
       color: 'bg-[hsl(var(--message-node-bg))]'
     }
     // Future node types can be added here:
-    // { type: 'condition', label: 'Condition', icon: GitBranch, description: 'Add conditional logic' },
-    // { type: 'input', label: 'Input', icon: Type, description: 'Collect user input' },
   ];
 
   return (

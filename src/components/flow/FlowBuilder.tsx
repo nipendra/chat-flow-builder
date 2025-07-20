@@ -26,19 +26,9 @@ const nodeTypes = {
   // Future node types can be added here
 };
 
-// Initial flow state
 const initialNodes: Node[] = [];
 const initialEdges: Edge[] = [];
 
-/**
- * Main Flow Builder Component
- * Features:
- * - Drag and drop node creation
- * - Node connection with validation (source handles limited to one connection)
- * - Settings panel for node editing
- * - Flow validation and save functionality
- * - Extensible architecture for adding new node types
- */
 const FlowBuilder: React.FC = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
@@ -47,13 +37,8 @@ const FlowBuilder: React.FC = () => {
   const reactFlowWrapper = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
 
-  /**
-   * Handle new connections between nodes
-   * Validates that source handles can only have one outgoing connection
-   */
   const onConnect: OnConnect = useCallback(
     (params: Connection) => {
-      // Check if source handle already has a connection
       const sourceHasConnection = edges.some(
         (edge) => edge.source === params.source && edge.sourceHandle === params.sourceHandle
       );
@@ -71,31 +56,21 @@ const FlowBuilder: React.FC = () => {
     [edges, setEdges, toast]
   );
 
-  /**
-   * Handle node selection for settings panel
-   */
+
   const handleNodeClick = useCallback((_: any, node: Node) => {
     setSelectedNode(node);
   }, []);
 
-  /**
-   * Handle clicking on empty canvas to deselect nodes
-   */
+
   const handlePaneClick = useCallback(() => {
     setSelectedNode(null);
   }, []);
 
-  /**
-   * Handle drag start for new nodes from the panel
-   */
   const onDragStart = (event: React.DragEvent, nodeType: string) => {
     event.dataTransfer.setData('application/reactflow', nodeType);
     event.dataTransfer.effectAllowed = 'move';
   };
 
-  /**
-   * Handle drop to create new nodes
-   */
   const onDrop = useCallback(
     (event: React.DragEvent) => {
       event.preventDefault();
@@ -128,17 +103,12 @@ const FlowBuilder: React.FC = () => {
     [reactFlowInstance, nodes.length, setNodes]
   );
 
-  /**
-   * Handle dragover for drop functionality
-   */
+
   const onDragOver = useCallback((event: React.DragEvent) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'move';
   }, []);
 
-  /**
-   * Update node data from settings panel
-   */
   const handleNodeUpdate = useCallback(
     (nodeId: string, newData: Partial<TextMessageNodeData>) => {
       setNodes((nds) =>
@@ -149,7 +119,6 @@ const FlowBuilder: React.FC = () => {
         )
       );
 
-      // Update selected node state
       if (selectedNode && selectedNode.id === nodeId) {
         setSelectedNode((prev) =>
           prev ? { ...prev, data: { ...prev.data, ...newData } } : null
@@ -159,10 +128,6 @@ const FlowBuilder: React.FC = () => {
     [setNodes, selectedNode]
   );
 
-  /**
-   * Validate and save the flow
-   * Shows error if there are multiple nodes and some have empty target handles
-   */
   const handleSave = useCallback(() => {
     if (nodes.length <= 1) {
       toast({
@@ -173,7 +138,6 @@ const FlowBuilder: React.FC = () => {
       return;
     }
 
-    // Find nodes with empty target handles (no incoming connections)
     const nodesWithoutTargets = nodes.filter((node) => {
       return !edges.some((edge) => edge.target === node.id);
     });
@@ -246,9 +210,6 @@ const FlowBuilder: React.FC = () => {
   );
 };
 
-/**
- * Flow Builder Wrapper with React Flow Provider
- */
 const FlowBuilderWithProvider: React.FC = () => {
   return (
     <ReactFlowProvider>
